@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:control="clr-namespace:QuickDigits.Controls"
              x:Class="QuickDigits.Views.CalculatorPage"
              Title="CalculatorPage">
     <Grid RowDefinitions="2*,*,*,*,*,*"
@@ -16,19 +17,33 @@
                HorizontalTextAlignment="End"
                VerticalTextAlignment="Center"
                LineBreakMode="NoWrap" />
-        <Border Grid.Row="1"
-                Stroke="#808080"
-                StrokeThickness="4"
-                BackgroundColor="Gray"
-                Padding="16,8">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10" />
-            </Border.StrokeShape>
-            <Label   Text="AC"                    
-                     FontSize="30" 
-                     TextColor="White"
-                     HorizontalTextAlignment="Center"
-                     VerticalTextAlignment="Center"/>
-        </Border>
+        <control:CalculalorButton Grid.Row="1"
+                                  Text="AC" />
+        <control:CalculalorButton Grid.Row="1"
+                                  Grid.Column="1"
+                                  Text="V" />
+        <control:CalculalorButton Grid.Row="1"
+                                  Grid.Column="2"
+                                  Text="%" />
+        <control:CalculalorButton Grid.Row="1"
+                                  Grid.Column="3"
+                                  Text="/" 
+                                  ButtonBackGroundColor="Orange"/>
+        <control:CalculalorButton Grid.Row="2"
+                                  Text="AC" 
+                                  ButtonBackGroundColor="black"/>
+        <control:CalculalorButton Grid.Row="2"
+                                  Grid.Column="1"
+                                  Text="V"
+                                  ButtonBackGroundColor="black" />
+        <control:CalculalorButton Grid.Row="2"
+                                  Grid.Column="2"
+                                  Text="%"
+                                  ButtonBackGroundColor="black" />
+        <control:CalculalorButton Grid.Row="2"
+                                  Grid.Column="3"
+                                  Text="/"
+                                  ButtonBackGroundColor="Orange" />
+
     </Grid>
 </ContentPage>
