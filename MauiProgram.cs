@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using QuickDigits.ViewModels;
+using QuickDigits.Views;
 
 namespace QuickDigits;
 
@@ -18,7 +20,8 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-
-		return builder.Build();
+		builder.Services.AddSingleton<CalculatorPage>();
+        builder.Services.AddSingleton<CalculatorViewModel>();
+        return builder.Build();
 	}
 }
