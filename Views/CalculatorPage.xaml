@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:control="clr-namespace:QuickDigits.Controls"
-             xmlns:viewModels="clr-namespece:QuickDigits.ViewModels"
+             xmlns:viewModels="clr-namespace:QuickDigits.ViewModels"
              x:DataType="viewModels:CalculatorViewModel"
              x:Class="QuickDigits.Views.CalculatorPage"
              Title="CalculatorPage">
@@ -12,34 +12,40 @@
           RowSpacing="5"
           ColumnSpacing="5">
         <Label Grid.ColumnSpan="4"
-               Text="0"
+               Text="{Binding Result}"
                FontSize="48"
                BackgroundColor="Black"
                TextColor="White"
                HorizontalTextAlignment="End"
                VerticalTextAlignment="Center"
                LineBreakMode="NoWrap" />
-        
+
         <control:CalculalorButton Grid.Row="1"
                                   Text="AC">
             <control:CalculalorButton.GestureRecognizers>
-                <TapGestureRecognizer ></TapGestureRecognizer>
-            </control:CalculalorButton.GestureRecognizers>       
+                <TapGestureRecognizer Command="{Binding ClearResultCommand}" />
+            </control:CalculalorButton.GestureRecognizers>
         </control:CalculalorButton>
-       
+
         <control:CalculalorButton Grid.Row="1"
                                   Grid.Column="1"
-                                  Text="√" />
+                                  Text="√">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GetResultCommand}"
+                                      CommandParameter="√"></TapGestureRecognizer>
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+
         <control:CalculalorButton Grid.Row="1"
                                   Grid.Column="2"
                                   Text="%" />
         <control:CalculalorButton Grid.Row="1"
                                   Grid.Column="3"
-                                  Text="/" 
-                                  ButtonBackGroundColor="Orange"/>
+                                  Text="/"
+                                  ButtonBackGroundColor="Orange" />
         <control:CalculalorButton Grid.Row="2"
-                                  Text="7" 
-                                  ButtonBackGroundColor="black"/>
+                                  Text="7"
+                                  ButtonBackGroundColor="black" />
         <control:CalculalorButton Grid.Row="2"
                                   Grid.Column="1"
                                   Text="8"
@@ -85,14 +91,29 @@
         <control:CalculalorButton Grid.Row="5"
                                   Grid.ColumnSpan="2"
                                   Text="0"
-                                  ButtonBackGroundColor="black" />       
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="0" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+      
         <control:CalculalorButton Grid.Row="5"
                                   Grid.Column="2"
                                   Text="X2"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="2x" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
         <control:CalculalorButton Grid.Row="5"
                                   Grid.Column="3"
-                                  Text="+"
-                                  ButtonBackGroundColor="Orange" />
+                                  Text="="
+                                  ButtonBackGroundColor="Orange">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GetResultCommand}" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
     </Grid>
 </ContentPage>

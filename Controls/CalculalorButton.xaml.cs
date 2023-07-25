@@ -9,9 +9,8 @@ public partial class CalculalorButton : Border
         BindableProperty.Create
         (
             nameof(Text), typeof(string),
-            typeof(CalculalorButton),
-            defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.OneWay,
+            typeof(CalculalorButton),            
+            defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: TextPropertyChange
             );
 
@@ -33,7 +32,7 @@ public partial class CalculalorButton : Border
     private static void TextPropertyChange(BindableObject bindable, object oldValue, object newValue)
     {
        var control = (CalculalorButton)bindable;
-       control.buttomLabel.Text = newValue.ToString();  
+       control.buttomLabel.Text = newValue.ToString();      
     }
 
     public CalculalorButton()
