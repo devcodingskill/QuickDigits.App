@@ -7,10 +7,11 @@ namespace QuickDigits.ViewModels
     {
         private string _firstValue;
         private string _secondValue;
-        private string _temValue;
-        private double _temSumValue;
-        private string _calcurat;
-        private bool _calcuratClick;
+        private string _currentValue;
+        private double _currentResult;
+        private CalculatorOperation _currentOperation;
+        private string _currentOperation;
+        private bool _isOperationClicked;
         [ObservableProperty]
         private string result;
         public CalculatorViewModel()
@@ -22,10 +23,10 @@ namespace QuickDigits.ViewModels
         {
             //case: user already calculation so we need to get second value from user input in this case _temValue
             if (string.IsNullOrEmpty(_secondValue))
-                _secondValue = _temValue;
+                _secondValue = _currentValue;
 
-            GetTheResult();
-            Result = _temSumValue.ToString();
+            PerformCalculation();
+            Result = _currentResult.ToString();
             RestValue();
         }
         [RelayCommand]
@@ -33,40 +34,40 @@ namespace QuickDigits.ViewModels
         {
             Result = "0";
             RestValue();
-            _calcurat = string.Empty;
-            _calcuratClick = false;
-            _temSumValue = 0;
+            _currentOperation = string.Empty;
+            _isOperationClicked = false;
+            _currentResult = 0;
         }
         [RelayCommand]
         void Calcurate(object sender)
         {
 
-            if (string.IsNullOrEmpty(_temSumValue.ToString()) || _temSumValue.ToString().Equals("0"))
+            if (string.IsNullOrEmpty(_currentResult.ToString()) || _currentResult.ToString().Equals("0"))
             {
                 if (string.IsNullOrEmpty(_firstValue))
                 {
-                    _firstValue = _temValue;
-                    _temValue = string.Empty;
-                    _calcurat = sender.ToString();
-                    _calcuratClick = true;
-                    Result = _firstValue + "" + _calcurat;
+                    _firstValue = _currentValue;
+                    _currentValue = string.Empty;
+                    _currentOperation = sender.ToString();
+                    _isOperationClicked = true;
+                    Result = _firstValue + "" + _currentOperation;
                 }
                 else
                 {
-                    _calcurat = sender.ToString();
-                    Result = _temSumValue.ToString() + "" + _calcurat;
+                    _currentOperation = sender.ToString();
+                    Result = _currentResult.ToString() + "" + _currentOperation;
                 }
             }
             else
             {
-                _calcurat = sender.ToString();
-                Result = _temSumValue.ToString() + "" + _calcurat;
+                _currentOperation = sender.ToString();
+                Result = _currentResult.ToString() + "" + _currentOperation;
             }
         }
         [RelayCommand]
         void SetNumbers(object sender)
         {
-            if (string.IsNullOrEmpty(_temSumValue.ToString()) || _temSumValue.ToString().Equals("0"))
+            if (string.IsNullOrEmpty(_currentResult.ToString()) || _currentResult.ToString().Equals("0"))
             {
                 FirstTimeInput(sender);
             }
@@ -75,45 +76,50 @@ namespace QuickDigits.ViewModels
                 SecondeTimeInput(sender);
             }
         }
+        [RelayCommand]
+        void ExtraCalculator(object sender)
+        {
+            string operation = sender.ToString();
 
+        }
         private void SecondeTimeInput(object sender)
         {
             if (string.IsNullOrEmpty(_firstValue))
             {
-                _firstValue = _temSumValue.ToString();
+                _firstValue = _currentResult.ToString();
             }
-            _temValue += sender.ToString();
-            Result = _firstValue + "" + _calcurat + _temValue;
+            _currentValue += sender.ToString();
+            Result = _firstValue + "" + _currentOperation + _currentValue;
         }
 
         private void FirstTimeInput(object sender)
         {
-            if (!_calcuratClick)
+            if (!_isOperationClicked)
             {
-                _temValue += sender.ToString();
-                Result = _temValue;
+                _currentValue += sender.ToString();
+                Result = _currentValue;
             }
             else
             {
-                _temValue += sender.ToString();
-                Result = _firstValue + "" + _calcurat + _temValue;
+                _currentValue += sender.ToString();
+                Result = _firstValue + "" + _currentOperation + _currentValue;
             }
         }
-        private void GetTheResult()
+        private void PerformCalculation()
         {
-            switch (_calcurat)
+            switch (_currentOperation)
             {
                 case "+":
-                    _temSumValue = Convert.ToDouble(_firstValue) + Convert.ToDouble(_secondValue);
+                    _currentResult = Convert.ToDouble(_firstValue) + Convert.ToDouble(_secondValue);
                     break;
                 case "-":
-                    _temSumValue = Convert.ToDouble(_firstValue) - Convert.ToDouble(_secondValue);
+                    _currentResult = Convert.ToDouble(_firstValue) - Convert.ToDouble(_secondValue);
                     break;
                 case "/":
-                    _temSumValue = Convert.ToDouble(_firstValue) / Convert.ToDouble(_secondValue);
+                    _currentResult = Convert.ToDouble(_firstValue) / Convert.ToDouble(_secondValue);
                     break;
                 case "*":
-                    _temSumValue = Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue);
+                    _currentResult = Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue);
                     break;
             }
         }
@@ -121,7 +127,30 @@ namespace QuickDigits.ViewModels
         {
             _firstValue = string.Empty;
             _secondValue = string.Empty;
-            _temValue = string.Empty;
+            _currentValue = string.Empty;
+        }
+    }
+    public enum CalculatorOperation
+    {
+        None,
+        Add,
+        Subtract,
+        Divide,
+        Multiply
+    }
+
+    public static class CalculatorOperationExtensions
+    {
+        public static string ToSymbolString(this CalculatorOperation operation)
+        {
+            switch (operation)
+            {
+                case CalculatorOperation.Add: return "+";
+                case CalculatorOperation.Subtract: return "-";
+                case CalculatorOperation.Divide: return "/";
+                case CalculatorOperation.Multiply: return "*";
+                default: return string.Empty;
+            }
         }
     }
 }
