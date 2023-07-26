@@ -8,7 +8,7 @@ namespace QuickDigits.ViewModels
         private string _firstValue;
         private string _secondValue;
         private string _currentValue;
-        private double _currentResult;       
+        private double _currentResult;
         private CalculatorOperation _currentOperation;
         private bool _isOperationClicked;
         [ObservableProperty]
@@ -23,11 +23,29 @@ namespace QuickDigits.ViewModels
             //case: user already calculation so we need to get second value from user input in this case _temValue
             if (string.IsNullOrEmpty(_secondValue))
                 _secondValue = _currentValue;
-
-            PerformCalculation();
+            if (GetOperationFromString(sender.ToString()) == CalculatorOperation.Percented)
+            {
+                CalculatePercented();
+            }
+            else
+                PerformCalculation();
             Result = _currentResult.ToString();
             RestValue();
         }
+
+        private void CalculatePercented()
+        {
+            switch (_currentOperation)
+            {
+                case CalculatorOperation.Subtract:
+                    _currentResult = Convert.ToDouble(_firstValue) - (Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue) / 100);
+                    break;
+                case CalculatorOperation.Multiply:
+                    _currentResult = Convert.ToDouble(_firstValue) + (Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue) / 100);
+                    break;
+            }
+        }
+
         [RelayCommand]
         void ClearResult(object sender)
         {
@@ -41,7 +59,7 @@ namespace QuickDigits.ViewModels
         void Calcurate(object sender)
         {
 
-            if (_currentResult==0)
+            if (_currentResult == 0)
             {
                 if (string.IsNullOrEmpty(_firstValue))
                 {
@@ -88,7 +106,7 @@ namespace QuickDigits.ViewModels
                     break;
                 case "√":
                     _currentResult = Math.Sqrt(_currentResult);
-                    break;                
+                    break;
             }
             Result = _currentResult.ToString();
         }
@@ -147,6 +165,7 @@ namespace QuickDigits.ViewModels
                 case "-": return CalculatorOperation.Subtract;
                 case "/": return CalculatorOperation.Divide;
                 case "*": return CalculatorOperation.Multiply;
+                case "%": return CalculatorOperation.Percented;
                 default: return CalculatorOperation.None;
             }
         }
@@ -157,7 +176,8 @@ namespace QuickDigits.ViewModels
         Add,
         Subtract,
         Divide,
-        Multiply
+        Multiply,
+        Percented,
     }
 
     public static class CalculatorOperationExtensions
@@ -170,6 +190,7 @@ namespace QuickDigits.ViewModels
                 case CalculatorOperation.Subtract: return "-";
                 case CalculatorOperation.Divide: return "/";
                 case CalculatorOperation.Multiply: return "*";
+                case CalculatorOperation.Percented: return "%";
                 default: return string.Empty;
             }
         }
