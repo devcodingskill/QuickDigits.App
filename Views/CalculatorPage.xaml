@@ -34,7 +34,7 @@
                                   Grid.Column="1"
                                   Text="√">
             <control:CalculalorButton.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding GetResultCommand}"
+                <TapGestureRecognizer Command="{Binding ExtraCalculatorCommand}"
                                       CommandParameter="√"></TapGestureRecognizer>
             </control:CalculalorButton.GestureRecognizers>
         </control:CalculalorButton>
@@ -190,7 +190,7 @@
                                   Text="X2"
                                   ButtonBackGroundColor="black">
             <control:CalculalorButton.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding GetResultCommand}"
+                <TapGestureRecognizer Command="{Binding ExtraCalculatorCommand}"
                                       CommandParameter="2x" />
             </control:CalculalorButton.GestureRecognizers>
         </control:CalculalorButton>

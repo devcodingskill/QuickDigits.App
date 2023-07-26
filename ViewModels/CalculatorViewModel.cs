@@ -8,9 +8,8 @@ namespace QuickDigits.ViewModels
         private string _firstValue;
         private string _secondValue;
         private string _currentValue;
-        private double _currentResult;
+        private double _currentResult;       
         private CalculatorOperation _currentOperation;
-        private string _currentOperation;
         private bool _isOperationClicked;
         [ObservableProperty]
         private string result;
@@ -34,7 +33,7 @@ namespace QuickDigits.ViewModels
         {
             Result = "0";
             RestValue();
-            _currentOperation = string.Empty;
+            _currentOperation = CalculatorOperation.None;
             _isOperationClicked = false;
             _currentResult = 0;
         }
@@ -42,32 +41,32 @@ namespace QuickDigits.ViewModels
         void Calcurate(object sender)
         {
 
-            if (string.IsNullOrEmpty(_currentResult.ToString()) || _currentResult.ToString().Equals("0"))
+            if (_currentResult==0)
             {
                 if (string.IsNullOrEmpty(_firstValue))
                 {
                     _firstValue = _currentValue;
                     _currentValue = string.Empty;
-                    _currentOperation = sender.ToString();
+                    _currentOperation = GetOperationFromString(sender.ToString());
                     _isOperationClicked = true;
-                    Result = _firstValue + "" + _currentOperation;
+                    Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
                 }
                 else
                 {
-                    _currentOperation = sender.ToString();
-                    Result = _currentResult.ToString() + "" + _currentOperation;
+                    _currentOperation = GetOperationFromString(sender.ToString());
+                    Result = $"{_currentResult.ToString()}  {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
                 }
             }
             else
             {
-                _currentOperation = sender.ToString();
-                Result = _currentResult.ToString() + "" + _currentOperation;
+                _currentOperation = GetOperationFromString(sender.ToString());
+                Result = $"{_currentResult.ToString()}  {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
             }
         }
         [RelayCommand]
         void SetNumbers(object sender)
         {
-            if (string.IsNullOrEmpty(_currentResult.ToString()) || _currentResult.ToString().Equals("0"))
+            if (_currentResult == 0)
             {
                 FirstTimeInput(sender);
             }
@@ -80,7 +79,18 @@ namespace QuickDigits.ViewModels
         void ExtraCalculator(object sender)
         {
             string operation = sender.ToString();
-
+            if (_currentResult == 0)
+                _currentResult = Convert.ToDouble(_currentValue);
+            switch (operation)
+            {
+                case "2x":
+                    _currentResult *= 2;
+                    break;
+                case "√":
+                    _currentResult = Math.Sqrt(_currentResult);
+                    break;                
+            }
+            Result = _currentResult.ToString();
         }
         private void SecondeTimeInput(object sender)
         {
@@ -89,7 +99,7 @@ namespace QuickDigits.ViewModels
                 _firstValue = _currentResult.ToString();
             }
             _currentValue += sender.ToString();
-            Result = _firstValue + "" + _currentOperation + _currentValue;
+            Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)} {_currentValue}";
         }
 
         private void FirstTimeInput(object sender)
@@ -102,23 +112,23 @@ namespace QuickDigits.ViewModels
             else
             {
                 _currentValue += sender.ToString();
-                Result = _firstValue + "" + _currentOperation + _currentValue;
+                Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)} {_currentValue}";
             }
         }
         private void PerformCalculation()
         {
             switch (_currentOperation)
             {
-                case "+":
+                case CalculatorOperation.Add:
                     _currentResult = Convert.ToDouble(_firstValue) + Convert.ToDouble(_secondValue);
                     break;
-                case "-":
+                case CalculatorOperation.Subtract:
                     _currentResult = Convert.ToDouble(_firstValue) - Convert.ToDouble(_secondValue);
                     break;
-                case "/":
+                case CalculatorOperation.Divide:
                     _currentResult = Convert.ToDouble(_firstValue) / Convert.ToDouble(_secondValue);
                     break;
-                case "*":
+                case CalculatorOperation.Multiply:
                     _currentResult = Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue);
                     break;
             }
@@ -128,6 +138,17 @@ namespace QuickDigits.ViewModels
             _firstValue = string.Empty;
             _secondValue = string.Empty;
             _currentValue = string.Empty;
+        }
+        private CalculatorOperation GetOperationFromString(string operationString)
+        {
+            switch (operationString)
+            {
+                case "+": return CalculatorOperation.Add;
+                case "-": return CalculatorOperation.Subtract;
+                case "/": return CalculatorOperation.Divide;
+                case "*": return CalculatorOperation.Multiply;
+                default: return CalculatorOperation.None;
+            }
         }
     }
     public enum CalculatorOperation
