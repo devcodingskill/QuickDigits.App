@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:QuickDigits.ViewModels"
              x:DataType="viewModels:CalculatorViewModel"
              x:Class="QuickDigits.Views.CalculatorPage"
+             Shell.NavBarIsVisible="False"
              Title="CalculatorPage">
     <Grid RowDefinitions="2*,*,*,*,*,*"
           ColumnDefinitions="*,*,*,*"
@@ -18,7 +19,9 @@
                TextColor="White"
                HorizontalTextAlignment="End"
                VerticalTextAlignment="Center"
-               LineBreakMode="NoWrap" />
+               LineBreakMode="NoWrap" 
+               Margin="0,5,0,0"
+               Padding="0,0,10,0"/>
 
         <control:CalculalorButton Grid.Row="1"
                                   Text="AC">
@@ -38,56 +41,140 @@
 
         <control:CalculalorButton Grid.Row="1"
                                   Grid.Column="2"
-                                  Text="%" />
+                                  Text="%">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="%" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
         <control:CalculalorButton Grid.Row="1"
                                   Grid.Column="3"
                                   Text="/"
-                                  ButtonBackGroundColor="Orange" />
+                                  ButtonBackGroundColor="Orange">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="/" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
         <control:CalculalorButton Grid.Row="2"
                                   Text="7"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="7" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="2"
                                   Grid.Column="1"
                                   Text="8"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="8" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="2"
                                   Grid.Column="2"
                                   Text="9"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="9" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+       
         <control:CalculalorButton Grid.Row="2"
                                   Grid.Column="3"
                                   Text="*"
-                                  ButtonBackGroundColor="Orange" />
+                                  ButtonBackGroundColor="Orange">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="*" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="3"
                                   Text="4"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="4" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="3"
                                   Grid.Column="1"
                                   Text="5"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="5" />
+            </control:CalculalorButton.GestureRecognizers>
+            
+        </control:CalculalorButton>
+
         <control:CalculalorButton Grid.Row="3"
                                   Grid.Column="2"
                                   Text="6"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="6" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="3"
                                   Grid.Column="3"
                                   Text="-"
-                                  ButtonBackGroundColor="Orange" />
+                                  ButtonBackGroundColor="Orange">
+            
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="-" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="4"
                                   Text="1"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="1" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="4"
                                   Grid.Column="1"
                                   Text="2"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="2" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="4"
                                   Grid.Column="2"
                                   Text="3"
-                                  ButtonBackGroundColor="black" />
+                                  ButtonBackGroundColor="black">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SetNumbersCommand}"
+                                      CommandParameter="3" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+        
         <control:CalculalorButton Grid.Row="4"
                                   Grid.Column="3"
                                   Text="+"
-                                  ButtonBackGroundColor="Orange" />
+                                  ButtonBackGroundColor="Orange">
+            <control:CalculalorButton.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                                      CommandParameter="+" />
+            </control:CalculalorButton.GestureRecognizers>
+        </control:CalculalorButton>
+            
         <control:CalculalorButton Grid.Row="5"
                                   Grid.ColumnSpan="2"
                                   Text="0"
@@ -103,10 +190,11 @@
                                   Text="X2"
                                   ButtonBackGroundColor="black">
             <control:CalculalorButton.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding CalcurateCommand}"
+                <TapGestureRecognizer Command="{Binding GetResultCommand}"
                                       CommandParameter="2x" />
             </control:CalculalorButton.GestureRecognizers>
         </control:CalculalorButton>
+      
         <control:CalculalorButton Grid.Row="5"
                                   Grid.Column="3"
                                   Text="="
@@ -115,5 +203,6 @@
                 <TapGestureRecognizer Command="{Binding GetResultCommand}" />
             </control:CalculalorButton.GestureRecognizers>
         </control:CalculalorButton>
+    
     </Grid>
 </ContentPage>
