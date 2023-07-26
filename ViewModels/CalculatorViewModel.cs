@@ -20,15 +20,15 @@ namespace QuickDigits.ViewModels
         [RelayCommand]
         private void GetResult(object sender)
         {
-            //case: user already calculation so we need to get second value from user input in this case _temValue
+            
             if (string.IsNullOrEmpty(_secondValue))
                 _secondValue = _currentValue;
+
             if (GetOperationFromString(sender.ToString()) == CalculatorOperation.Percented)
-            {
                 CalculatePercented();
-            }
             else
                 PerformCalculation();
+
             Result = _currentResult.ToString();
             RestValue();
         }
@@ -45,7 +45,6 @@ namespace QuickDigits.ViewModels
                     break;
             }
         }
-
         [RelayCommand]
         void ClearResult(object sender)
         {
