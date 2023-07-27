@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using QuickDigits.Enumerations;
+using QuickDigits.Services;
 
 namespace QuickDigits.ViewModels
 {
@@ -11,39 +13,23 @@ namespace QuickDigits.ViewModels
         private double _currentResult;
         private CalculatorOperation _currentOperation;
         private bool _isOperationClicked;
+        CalculatorService _calculatorService;
         [ObservableProperty]
         private string result;
-        public CalculatorViewModel()
+        public CalculatorViewModel(CalculatorService calculatorService)
         {
+            _calculatorService = calculatorService;          
             Result = "0";
         }
         [RelayCommand]
         private void GetResult(object sender)
         {
-            
-            if (string.IsNullOrEmpty(_secondValue))
-                _secondValue = _currentValue;
-
-            if (GetOperationFromString(sender.ToString()) == CalculatorOperation.Percented)
-                CalculatePercented();
-            else
-                PerformCalculation();
-
-            Result = _currentResult.ToString();
+            if (_calculatorService._secondValue == 0)            
+                _calculatorService._secondValue = _calculatorService.ParseValue(_calculatorService._currentValue);                               
+           
+            _calculatorService.GetResult();
+            Result = _calculatorService.Result;           
             RestValue();
-        }
-
-        private void CalculatePercented()
-        {
-            switch (_currentOperation)
-            {
-                case CalculatorOperation.Subtract:
-                    _currentResult = Convert.ToDouble(_firstValue) - (Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue) / 100);
-                    break;
-                case CalculatorOperation.Multiply:
-                    _currentResult = Convert.ToDouble(_firstValue) + (Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue) / 100);
-                    break;
-            }
         }
         [RelayCommand]
         void ClearResult(object sender)
@@ -57,40 +43,15 @@ namespace QuickDigits.ViewModels
         [RelayCommand]
         void Calcurate(object sender)
         {
-
-            if (_currentResult == 0)
-            {
-                if (string.IsNullOrEmpty(_firstValue))
-                {
-                    _firstValue = _currentValue;
-                    _currentValue = string.Empty;
-                    _currentOperation = GetOperationFromString(sender.ToString());
-                    _isOperationClicked = true;
-                    Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
-                }
-                else
-                {
-                    _currentOperation = GetOperationFromString(sender.ToString());
-                    Result = $"{_currentResult.ToString()}  {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
-                }
-            }
-            else
-            {
-                _currentOperation = GetOperationFromString(sender.ToString());
-                Result = $"{_currentResult.ToString()}  {CalculatorOperationExtensions.ToSymbolString(_currentOperation)}";
-            }
+            _calculatorService.Calculate(sender.ToString());
+            Result = _calculatorService.Result;
+            
         }
         [RelayCommand]
         void SetNumbers(object sender)
         {
-            if (_currentResult == 0)
-            {
-                FirstTimeInput(sender);
-            }
-            else
-            {
-                SecondeTimeInput(sender);
-            }
+            _calculatorService.SetNumbers((string)sender);
+            Result = _calculatorService.Result;
         }
         [RelayCommand]
         void ExtraCalculator(object sender)
@@ -108,90 +69,13 @@ namespace QuickDigits.ViewModels
                     break;
             }
             Result = _currentResult.ToString();
-        }
-        private void SecondeTimeInput(object sender)
-        {
-            if (string.IsNullOrEmpty(_firstValue))
-            {
-                _firstValue = _currentResult.ToString();
-            }
-            _currentValue += sender.ToString();
-            Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)} {_currentValue}";
-        }
-
-        private void FirstTimeInput(object sender)
-        {
-            if (!_isOperationClicked)
-            {
-                _currentValue += sender.ToString();
-                Result = _currentValue;
-            }
-            else
-            {
-                _currentValue += sender.ToString();
-                Result = $"{_firstValue} {CalculatorOperationExtensions.ToSymbolString(_currentOperation)} {_currentValue}";
-            }
-        }
-        private void PerformCalculation()
-        {
-            switch (_currentOperation)
-            {
-                case CalculatorOperation.Add:
-                    _currentResult = Convert.ToDouble(_firstValue) + Convert.ToDouble(_secondValue);
-                    break;
-                case CalculatorOperation.Subtract:
-                    _currentResult = Convert.ToDouble(_firstValue) - Convert.ToDouble(_secondValue);
-                    break;
-                case CalculatorOperation.Divide:
-                    _currentResult = Convert.ToDouble(_firstValue) / Convert.ToDouble(_secondValue);
-                    break;
-                case CalculatorOperation.Multiply:
-                    _currentResult = Convert.ToDouble(_firstValue) * Convert.ToDouble(_secondValue);
-                    break;
-            }
-        }
+        }      
+      
         private void RestValue()
         {
             _firstValue = string.Empty;
             _secondValue = string.Empty;
             _currentValue = string.Empty;
-        }
-        private CalculatorOperation GetOperationFromString(string operationString)
-        {
-            switch (operationString)
-            {
-                case "+": return CalculatorOperation.Add;
-                case "-": return CalculatorOperation.Subtract;
-                case "/": return CalculatorOperation.Divide;
-                case "*": return CalculatorOperation.Multiply;
-                case "%": return CalculatorOperation.Percented;
-                default: return CalculatorOperation.None;
-            }
-        }
-    }
-    public enum CalculatorOperation
-    {
-        None,
-        Add,
-        Subtract,
-        Divide,
-        Multiply,
-        Percented,
-    }
-
-    public static class CalculatorOperationExtensions
-    {
-        public static string ToSymbolString(this CalculatorOperation operation)
-        {
-            switch (operation)
-            {
-                case CalculatorOperation.Add: return "+";
-                case CalculatorOperation.Subtract: return "-";
-                case CalculatorOperation.Divide: return "/";
-                case CalculatorOperation.Multiply: return "*";
-                case CalculatorOperation.Percented: return "%";
-                default: return string.Empty;
-            }
         }
     }
 }
