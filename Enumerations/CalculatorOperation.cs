@@ -14,6 +14,9 @@ namespace QuickDigits.Enumerations
         Divide,
         Multiply,
         Percented,
+        SquareRoot,
+        PowerByTwo
+
     }
     public static class CalculatorOperationExtensions
     {
@@ -26,6 +29,8 @@ namespace QuickDigits.Enumerations
                 case CalculatorOperation.Divide: return "/";
                 case CalculatorOperation.Multiply: return "*";
                 case CalculatorOperation.Percented: return "%";
+                case CalculatorOperation.SquareRoot: return "√";
+                case CalculatorOperation.PowerByTwo: return "2x";
                 default: return string.Empty;
             }
         }
@@ -38,6 +43,8 @@ namespace QuickDigits.Enumerations
                 case "/": return CalculatorOperation.Divide;
                 case "*": return CalculatorOperation.Multiply;
                 case "%": return CalculatorOperation.Percented;
+                case "√": return CalculatorOperation.SquareRoot;
+                case "2x": return CalculatorOperation.PowerByTwo;
                 default: return CalculatorOperation.None;
             }
         }
