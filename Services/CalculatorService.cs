@@ -52,10 +52,10 @@ namespace QuickDigits.Services
 
         public void SetNumbers(string input)
         {
-            if (_currentResult == 0)           
-                FirstTimeInput(input);            
-            else            
-                SecondTimeInput(input);            
+            if (_currentResult == 0)
+                FirstTimeInput(input);
+            else
+                SecondTimeInput(input);
         }
         public void ExtraCalculator(string operation)
         {
@@ -81,7 +81,10 @@ namespace QuickDigits.Services
                 return;
 
             if (CalculatorOperationExtensions.GetOperationFromString(operation) == CalculatorOperation.Percented)
-                CalculatePercented();
+            {
+                _secondValue = ParseValue(_currentValue);
+                CalculatePercented(); 
+            }
             else
                 PerformCalculation();
 
